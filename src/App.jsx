@@ -1,6 +1,6 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 
 import usersFromServer from './api/users';
@@ -22,7 +22,7 @@ const products = productsFromServer.map(product => {
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState([]);
+  // const [categoryFilter, setCategoryFilter] = useState([]);
 
   let visibleProducts = products;
 
@@ -137,7 +137,7 @@ export const App = () => {
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
                 onClick={() => {
-                  setCategoryFilter([]);
+                  // setCategoryFilter([]);
                   setSearchFilter('');
                   setSelectedUser(null);
                 }}
