@@ -22,7 +22,7 @@ const products = productsFromServer.map(product => {
 export const App = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
-  // const [categoryFilter, setCategoryFilter] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState([]);
 
   let visibleProducts = products;
 
@@ -35,6 +35,12 @@ export const App = () => {
   if (searchFilter) {
     visibleProducts = visibleProducts.filter(product =>
       product.name.toLowerCase().includes(searchFilter.toLowerCase()),
+    );
+  }
+
+  if (categoryFilter.length > 0) {
+    visibleProducts = visibleProducts.filter(product =>
+      categoryFilter.includes(product.category?.id),
     );
   }
 
@@ -103,32 +109,28 @@ export const App = () => {
                 href="#/"
                 data-cy="AllCategories"
                 className="button is-success mr-6 is-outlined"
+                onClick={() => setCategoryFilter([])}
               >
                 All
               </a>
 
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1 is-info"
-                href="#/"
-              >
-                Category 1
-              </a>
-
-              <a data-cy="Category" className="button mr-2 my-1" href="#/">
-                Category 2
-              </a>
-
-              <a
-                data-cy="Category"
-                className="button mr-2 my-1 is-info"
-                href="#/"
-              >
-                Category 3
-              </a>
-              <a data-cy="Category" className="button mr-2 my-1" href="#/">
-                Category 4
-              </a>
+              {categoriesFromServer.map(category => (
+                <a
+                  key={category.id}
+                  data-cy="Category"
+                  className={`button mr-2 my-1 ${categoryFilter.includes(category.id) ? 'is-info' : ''}`}
+                  href="#/"
+                  onClick={() =>
+                    setCategoryFilter(
+                      categoryFilter.includes(category.id)
+                        ? categoryFilter.filter(id => id !== category.id)
+                        : [...categoryFilter, category.id],
+                    )
+                  }
+                >
+                  {category.title}
+                </a>
+              ))}
             </div>
 
             <div className="panel-block">
@@ -137,7 +139,7 @@ export const App = () => {
                 href="#/"
                 className="button is-link is-outlined is-fullwidth"
                 onClick={() => {
-                  // setCategoryFilter([]);
+                  setCategoryFilter([]);
                   setSearchFilter('');
                   setSelectedUser(null);
                 }}
